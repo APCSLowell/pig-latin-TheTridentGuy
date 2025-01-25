@@ -24,21 +24,21 @@ public class PigLatin {
         }
 	    System.out.println("there are " + lines.length + " lines");
 	    for (int i = 0 ; i < lines.length; i++) {
-	        System.out.println(processword(lines[i]));
+	        System.out.println(pigLatin(lines[i]));
 	    }
     }
     String[] words = {"beast","dough","happy","question","star","three","eagle","try"};
     String[] vowels = {"a", "e", "i", "o", "u"};
 
 
-private boolean containsvowel(String s){
+ boolean containsvowel(String s){
   for(String vowel: vowels){
     if(contains(s, vowel)){return true;}
   }
   return false;
 }
 
-private boolean contains(String a, String b){
+ boolean contains(String a, String b){
   for(int i=0; i<a.length(); i++){
     if(a.substring(i, i+1).equals(b)){
       return true;
@@ -47,13 +47,22 @@ private boolean contains(String a, String b){
   return false;
 }
 
-private String processword(String s){
-  boolean flag = false;
-  if(!containsvowel(s)){return s+"ay";}
-  if(containsvowel(s.substring(0,1))){return s+"way";}
-  else{flag = true;}
-  if(s.length()>=2&&s.substring(0,2).equals("qu")){return s.substring(2)+"quay";}
-  if(flag){return s.substring(1)+s.substring(0,1)+"ay";}
-  return new String();
-}
+    int getleadingcons(String s){
+        for(int i=0; i<s.length(); i++){
+            if(containsvowel(s.substring(i, i+1))){
+                return i;
+            }
+        }
+        return s.length();
+    }
+// screw java man
+    String pigLatin(String s){
+        boolean flag = false;
+        if(!containsvowel(s)){return s+"ay";}
+        if(containsvowel(s.substring(0,1))){return s+"way";}
+        else{flag = true;}
+        if(s.length()>=2&&s.substring(0,2).equals("qu")){return s.substring(2)+"quay";}
+        if(flag){return s.substring(getleadingcons(s))+s.substring(0,getleadingcons(s))+"ay";}
+        return new String();
+    }
 }//end PigLatin class
